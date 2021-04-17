@@ -74,21 +74,53 @@ public:
 
 };
 
+class cPaddle
+{
+private:
+	int x, y;
+	int originalX, originalY;
+public:
+	cPaddle()
+	{
+		x = y = 0;
+	}
+	cPaddle(int posX, int posY) : cPaddle()
+	{
+		originalX = posX;
+		originalY = posY;
+		x = posX;
+		y = posY;
+	}
+
+	inline void Reset() { x = originalX; y = originalY; }
+	inline int getX() { return x; }
+	inline int getY() { return y; }
+	inline void moveUp() { y--; }
+	inline void moveDown() { y++; }
+	friend ostream& operator<<(ostream& o, cPaddle c)
+	{
+		o << "Paddle [" << c.x << "," << c.y << "]";
+		return o;
+	}
+};
+
+class GameManager
+{
+	int width, height;
+	int score1, score2;
+	char up1, down1, up2, down2;
+	bool quit; 
+	cBall * ball;
+	cPaddle *player1;
+	cPaddle* player2;
+
+public:
+
+};
+
 int main()
 {
-	cBall c(0, 0);
-	cout << c << endl;
-	c.randomDirection();
-	cout << c << endl;
-	c.Move();
-	cout << c << endl;
-	c.randomDirection();
-	c.Move();
-	cout << c << endl;
-	c.randomDirection();
-	c.Move();
-	cout << c << endl;
-
+	
 	return 0;
 
 }
