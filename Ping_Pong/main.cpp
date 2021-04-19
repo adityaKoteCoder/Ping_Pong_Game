@@ -129,7 +129,7 @@ public:
 		width = w; height = h;
 		ball = new cBall(w / 2, h / 2);
 		player1 = new cPaddle(1, h/2 -3);
-		player2 = new cPaddle(w - 2, j / h - 3); 
+		player2 = new cPaddle(w - 2, h / 2 - 3); 
 
 
 	}
@@ -148,11 +148,55 @@ public:
 		ball->Reset();
 		player1->Reset();
 	}
+
+	void Draw()
+	{
+		system("cls");
+		for (int i = 0; i < width + 2; i++)
+			cout << '\xB2';
+		cout << endl;
+		
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				int ballx = ball->getX();
+				int bally = ball->getY();
+				int player1x = player1->getX();
+				int player2x = player2->getX();
+				int player1y = player1->getY();
+				int player2y = player2->getY();
+
+				if (j == 0)
+					cout << "\xB2";
+
+				if (ballx == j && bally == i)
+					cout << "O"; //ball
+				else if (player1x == j && player1y == i)
+					cout << "\xDB"; //player1
+				else if (player2x == j && player2y == i)
+					cout << "\xDB"; //player1	
+				else
+					cout << " ";
+
+				if (j == width - 1)
+					cout << "\xB2";
+
+			}
+
+			cout << endl;
+		}	
+
+		for (int i = 0; i < width + 2; i++)
+			cout << "\xB2";
+		cout << endl;	
+	}
 };
 
 int main()
 {
-	
+	cGameManager c(40, 20);
+	c.Draw();
 	return 0;
 
 }
