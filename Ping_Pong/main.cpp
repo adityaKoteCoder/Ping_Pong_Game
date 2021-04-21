@@ -1,16 +1,14 @@
-#include<iostream>
-#include<time.h>
-#include<conio.h>
+#include <iostream>
+#include <time.h>
+#include <conio.h>
 using namespace std;
-enum eDir{ STOP=0, LEFT = 1, UPLEFT = 2, DOWNLEFT = 3, RIGHT = 4, UPRIGHT = 5, DOWNRIGHT = 6  };
-
+enum eDir { STOP = 0, LEFT = 1, UPLEFT = 2, DOWNLEFT = 3, RIGHT = 4, UPRIGHT = 5, DOWNRIGHT = 6 };
 class cBall
 {
 private:
 	int x, y;
 	int originalX, originalY;
 	eDir direction;
-//constructor
 public:
 	cBall(int posX, int posY)
 	{
@@ -19,7 +17,6 @@ public:
 		x = posX; y = posY;
 		direction = STOP;
 	}
-
 	void Reset()
 	{
 		x = originalX; y = originalY;
@@ -29,16 +26,13 @@ public:
 	{
 		direction = d;
 	}
-
 	void randomDirection()
 	{
-		direction = (eDir)((rand() % 6) +1);
+		direction = (eDir)((rand() % 6) + 1);
 	}
-
 	inline int getX() { return x; }
 	inline int getY() { return y; }
-	inline eDir getDirection() { return direction;  }
-
+	inline eDir getDirection() { return direction; }
 	void Move()
 	{
 		switch (direction)
@@ -61,21 +55,18 @@ public:
 			x++; y--;
 			break;
 		case DOWNRIGHT:
-			x++; y++ ;
+			x++; y++;
 			break;
-		default: 
-			break; 
+		default:
+			break;
 		}
 	}
-
-	friend ostream & operator<<(ostream & o, cBall c)
+	friend ostream& operator<<(ostream& o, cBall c)
 	{
 		o << "Ball [" << c.x << "," << c.y << "][" << c.direction << "]";
 		return o;
 	}
-
 };
-
 class cPaddle
 {
 private:
@@ -93,7 +84,6 @@ public:
 		x = posX;
 		y = posY;
 	}
-
 	inline void Reset() { x = originalX; y = originalY; }
 	inline int getX() { return x; }
 	inline int getY() { return y; }
@@ -105,57 +95,51 @@ public:
 		return o;
 	}
 };
-
-class cGameManager
+class cGameManger
 {
 private:
 	int width, height;
 	int score1, score2;
 	char up1, down1, up2, down2;
-	bool quit; 
-	cBall * ball;
-	cPaddle *player1;
+	bool quit;
+	cBall* ball;
+	cPaddle* player1;
 	cPaddle* player2;
-
-//constructor
 public:
-	cGameManager(int w, int h)
+	cGameManger(int w, int h)
 	{
 		srand(time(NULL));
 		quit = false;
-		up1 = 'w'; up2 = '8';
-		down1 = 's'; down2 = '2';
+		up1 = 'w'; up2 = 'i';
+		down1 = 's'; down2 = 'k';
 		score1 = score2 = 0;
 		width = w; height = h;
 		ball = new cBall(w / 2, h / 2);
-		player1 = new cPaddle(1, h/2 -3);
-		player2 = new cPaddle(w - 2, h / 2 - 3); 
-
-
+		player1 = new cPaddle(1, h / 2 - 3);
+		player2 = new cPaddle(w - 2, h / 2 - 3);
 	}
-	~cGameManager()
+	~cGameManger()
 	{
 		delete ball, player1, player2;
 	}
-
-	void Scoreup(cPaddle* player)
+	void ScoreUp(cPaddle* player)
 	{
 		if (player == player1)
 			score1++;
 		else if (player == player2)
 			score2++;
-			
+
 		ball->Reset();
 		player1->Reset();
+		player2->Reset();
 	}
-
 	void Draw()
 	{
 		system("cls");
 		for (int i = 0; i < width + 2; i++)
-			cout << '\xB2';
+			cout << "\xB2";
 		cout << endl;
-		
+
 		for (int i = 0; i < height; i++)
 		{
 			for (int j = 0; j < width; j++)
@@ -175,7 +159,7 @@ public:
 				else if (player1x == j && player1y == i)
 					cout << "\xDB"; //player1
 				else if (player2x == j && player2y == i)
-					cout << "\xDB"; //player1
+					cout << "\xDB"; //player2
 
 				else if (player1x == j && player1y + 1 == i)
 					cout << "\xDB"; //player1
@@ -195,15 +179,15 @@ public:
 
 				if (j == width - 1)
 					cout << "\xB2";
-
 			}
-
 			cout << endl;
-		}	
+		}
 
 		for (int i = 0; i < width + 2; i++)
 			cout << "\xB2";
-		cout << endl;	
+		cout << endl;
+
+		cout << "Score 1: " << score1 << endl << "Score 2: " << score2 << endl;
 	}
 	void Input()
 	{
@@ -273,14 +257,19 @@ public:
 		if (ballx == 0)
 			ScoreUp(player2);
 	}
+	void Run()
+	{
+		while (!quit)
+		{
+			Draw();
+			Input();
+			Logic();
+		}
+	}
 };
-
-
-
 int main()
 {
-	cGameManager c(40, 20);
-	c.Draw();
+	cGameManger c(40, 20);
+	c.Run();
 	return 0;
-
 }

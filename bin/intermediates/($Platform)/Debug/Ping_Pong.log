@@ -1,3 +1,3 @@
 ﻿  main.cpp
-E:\aditya\c++\Ping_Pong\Ping_Pong\main.cpp(124,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+E:\aditya\c++\Ping_Pong\Ping_Pong\main.cpp(111,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Ping_Pong.vcxproj -> E:\aditya\c++\Ping_Pong\bin\($Platform)\Debug\Ping_Pong.exe
